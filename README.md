@@ -36,9 +36,3 @@ Stub.
 -   [ ] Make keybindings more customizable
 -   [ ] Add extension settings
 -   [ ] Add more text objects?
-
-## Release Notes
-
-### 0.1.0
-
-Initial release of Text Objects VSCode

@@ -2,7 +2,7 @@
     "name": "advancedselections",
     "displayName": "Advanced Selections",
     "description": "Advanced selections, pseudo vim-like",
-    "version": "0.1.0",
+    "version": "0.1.1",
     "repository": {
         "type": "git",
         "url": "https://github.com/coravacav/advancedselections.git"
