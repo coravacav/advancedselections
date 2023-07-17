@@ -3,11 +3,17 @@ import { Type } from './create';
 import { output } from './log';
 
 export type Continue = boolean;
-export type Callback = (s: string) => Continue;
+
+export type Context = {
+    inMovement?: boolean;
+};
+
+export type Callback = (s: string, context: Context) => Continue;
 
 export type SearchSetting = {
     lhs: Callback;
     rhs: Callback;
+    init?: () => void;
     type: Type;
     ignoreNewlines?: boolean;
     findFirst?: 'backwards' | 'forwards';
@@ -59,21 +65,22 @@ export function searchBackwards(
     pos: Position,
     doc: TextDocument,
     callback: Callback,
-    { type, ignoreNewlines: blockNewlines = false }: Pick<SearchSetting, 'type' | 'ignoreNewlines'>
+    { type, ignoreNewlines = false }: Pick<SearchSetting, 'type' | 'ignoreNewlines'>,
+    context: Context
 ): Position | undefined {
     let startPos: number | undefined = pos.character;
 
     for (let line = pos.line; line >= 0; line--) {
         const text = doc.lineAt(line).text;
         for (let char = startPos ?? text.length - 1; char >= 0; char--) {
-            if (!callback(text[char])) {
+            if (!callback(text[char], context)) {
                 return new Position(...conditionallyDecrementSelection(type, doc, line, char + 1));
             }
         }
 
         startPos = undefined;
 
-        if (!blockNewlines && !callback('\n')) {
+        if (!ignoreNewlines && !callback('\n', context)) {
             return new Position(...conditionallyDecrementSelection(type, doc, line, 0));
         }
     }
@@ -83,21 +90,22 @@ export function searchForwards(
     pos: Position,
     doc: TextDocument,
     callback: Callback,
-    { type, ignoreNewlines: blockNewlines = false }: Pick<SearchSetting, 'type' | 'ignoreNewlines'>
+    { type, ignoreNewlines = false }: Pick<SearchSetting, 'type' | 'ignoreNewlines'>,
+    context: Context
 ): Position | undefined {
     let startPos: number | undefined = pos.character;
 
     for (let line = pos.line; line < doc.lineCount; line++) {
         const text = doc.lineAt(line).text;
         for (let char = startPos ?? 0; char < text.length; char++) {
-            if (!callback(text[char])) {
+            if (!callback(text[char], context)) {
                 return new Position(...conditionallyIncrementSelection(type, doc, line, char));
             }
         }
 
         startPos = undefined;
 
-        if (!blockNewlines && !callback('\n')) {
+        if (!ignoreNewlines && !callback('\n', context)) {
             return new Position(...conditionallyIncrementSelection(type, doc, line, text.length));
         }
     }
@@ -106,17 +114,25 @@ export function searchForwards(
 export function searchBothWays(
     pos: Position,
     doc: TextDocument,
-    { lhs, rhs, ...rest }: SearchSetting
+    { lhs, rhs, init, ...rest }: SearchSetting
 ): [Position, Position] | undefined {
-    if (!lhs(doc.lineAt(pos.line).text[pos.character])) {
+    if (!lhs(doc.lineAt(pos.line).text[pos.character], {})) {
         output.appendLine('Selection failed');
         return;
     }
 
-    const backwards = searchBackwards(pos, doc, lhs, rest);
-    const forwards = searchForwards(pos, doc, rhs, rest);
+    // Reset some state
+    init?.();
 
-    if (backwards && forwards) {
+    const backwards = searchBackwards(pos, doc, lhs, rest, {});
+
+    if (!backwards) {
+        return;
+    }
+
+    const forwards = searchForwards(backwards, doc, rhs, rest, {});
+
+    if (forwards) {
         return [backwards, forwards];
     }
 }

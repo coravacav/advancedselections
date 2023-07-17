@@ -2,7 +2,7 @@
     "name": "advancedselections",
     "displayName": "Advanced Selections",
     "description": "Advanced selections, pseudo vim-like",
-    "version": "0.1.3",
+    "version": "0.1.4",
     "repository": {
         "type": "git",
         "url": "https://github.com/coravacav/advancedselections.git"
@@ -421,6 +421,42 @@
             {
                 "when": "editorTextFocus",
                 "command": "advancedselections.selectInnerParenthesis",
+                "key": "ctrl+h i shift+0",
+                "mac": "cmd+h i shift+0"
+            },
+            {
+                "when": "editorTextFocus",
+                "command": "advancedselections.forwardsSelectInnerParenthesis",
+                "key": "ctrl+shift+h i shift+0",
+                "mac": "cmd+shift+h i shift+0"
+            },
+            {
+                "when": "editorTextFocus",
+                "command": "advancedselections.backwardsSelectInnerParenthesis",
+                "key": "ctrl+shift+alt+h i shift+0",
+                "mac": "cmd+shift+alt+h i shift+0"
+            },
+            {
+                "when": "editorTextFocus",
+                "command": "advancedselections.selectOuterParenthesis",
+                "key": "ctrl+h o shift+0",
+                "mac": "cmd+h o shift+0"
+            },
+            {
+                "when": "editorTextFocus",
+                "command": "advancedselections.forwardsSelectOuterParenthesis",
+                "key": "ctrl+shift+h o shift+0",
+                "mac": "cmd+shift+h o shift+0"
+            },
+            {
+                "when": "editorTextFocus",
+                "command": "advancedselections.backwardsSelectOuterParenthesis",
+                "key": "ctrl+shift+alt+h o shift+0",
+                "mac": "cmd+shift+alt+h o shift+0"
+            },
+            {
+                "when": "editorTextFocus",
+                "command": "advancedselections.selectInnerParenthesis",
                 "key": "ctrl+h i shift+9",
                 "mac": "cmd+h i shift+9"
             },
@@ -453,42 +489,6 @@
                 "command": "advancedselections.backwardsSelectOuterParenthesis",
                 "key": "ctrl+shift+alt+h o shift+9",
                 "mac": "cmd+shift+alt+h o shift+9"
-            },
-            {
-                "when": "editorTextFocus",
-                "command": "advancedselections.selectInnerParenthesis",
-                "key": "ctrl+h i shift+8",
-                "mac": "cmd+h i shift+8"
-            },
-            {
-                "when": "editorTextFocus",
-                "command": "advancedselections.forwardsSelectInnerParenthesis",
-                "key": "ctrl+shift+h i shift+8",
-                "mac": "cmd+shift+h i shift+8"
-            },
-            {
-                "when": "editorTextFocus",
-                "command": "advancedselections.backwardsSelectInnerParenthesis",
-                "key": "ctrl+shift+alt+h i shift+8",
-                "mac": "cmd+shift+alt+h i shift+8"
-            },
-            {
-                "when": "editorTextFocus",
-                "command": "advancedselections.selectOuterParenthesis",
-                "key": "ctrl+h o shift+8",
-                "mac": "cmd+h o shift+8"
-            },
-            {
-                "when": "editorTextFocus",
-                "command": "advancedselections.forwardsSelectOuterParenthesis",
-                "key": "ctrl+shift+h o shift+8",
-                "mac": "cmd+shift+h o shift+8"
-            },
-            {
-                "when": "editorTextFocus",
-                "command": "advancedselections.backwardsSelectOuterParenthesis",
-                "key": "ctrl+shift+alt+h o shift+8",
-                "mac": "cmd+shift+alt+h o shift+8"
             },
             {
                 "when": "editorTextFocus",

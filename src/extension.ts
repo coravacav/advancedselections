@@ -1,7 +1,7 @@
 // The module 'vscode' contains the VS Code extensibility API
 // Import the module and reference it with the alias vscode in your code below
 import { alphaNumeric } from './regexes';
-import { registerOutput } from './log';
+import { output, registerOutput } from './log';
 import { create } from './create';
 import { SearchSetting } from './search';
 import { ExtensionContext, commands } from 'vscode';
@@ -36,16 +36,95 @@ export function activate(ctx: ExtensionContext) {
     anb(ctx, 'DoubleQuote', { lhs: (c) => c !== '"' });
     anb(ctx, 'SingleQuote', { lhs: (c) => c !== "'" });
     anb(ctx, 'Backtick', { lhs: (c) => c !== '`', ignoreNewlines: true });
-    anb(ctx, 'Parenthesis', { lhs: (c) => c !== '(', rhs: (c) => c !== ')', ignoreNewlines: true });
-    anb(ctx, 'CurlyBrace', { lhs: (c) => c !== '{', rhs: (c) => c !== '}', ignoreNewlines: true });
-    anb(ctx, 'SquareBracket', { lhs: (c) => c !== '[', rhs: (c) => c !== ']', ignoreNewlines: true });
-    anb(ctx, 'AngleBracket', { lhs: (c) => c !== '<', rhs: (c) => c !== '>', ignoreNewlines: true });
+
+    let some = 0;
+
+    const init = () => {
+        some = 0;
+    };
+
+    anb(ctx, 'Parenthesis', {
+        lhs: (c) => c !== '(',
+        rhs: (c) => {
+            if (c === '(') {
+                some++;
+            } else if (c === ')') {
+                some--;
+            }
+
+            return some >= 0;
+        },
+        init,
+        ignoreNewlines: true,
+    });
+
+    anb(ctx, 'CurlyBrace', {
+        lhs: (c) => c !== '{',
+        rhs: (c) => {
+            if (c === '{') {
+                some++;
+            } else if (c === '}') {
+                some--;
+            }
+
+            return some >= 0;
+        },
+        init,
+        ignoreNewlines: true,
+    });
+    anb(ctx, 'SquareBracket', {
+        lhs: (c) => c !== '[',
+        rhs: (c) => {
+            if (c === '[') {
+                some++;
+            } else if (c === ']') {
+                some--;
+            }
+
+            return some >= 0;
+        },
+        init,
+        ignoreNewlines: true,
+    });
+    anb(ctx, 'AngleBracket', {
+        lhs: (c) => c !== '<',
+        rhs: (c) => {
+            if (c === '<') {
+                some++;
+            } else if (c === '>') {
+                some--;
+            }
+
+            return some >= 0;
+        },
+        init,
+        ignoreNewlines: true,
+    });
+
+    let otherPair: [string, string];
 
     const lhsPairs = ['{', '[', '<', '('];
     const rhsPairs = ['}', ']', '>', ')'];
     anb(ctx, 'MatchingPair', {
-        lhs: (c) => !lhsPairs.includes(c),
-        rhs: (c) => !rhsPairs.includes(c),
+        lhs: (c) => {
+            output.appendLine('lhs: ' + c + !lhsPairs.includes(c));
+            const ret = !lhsPairs.includes(c);
+            if (!ret) {
+                otherPair = [c, rhsPairs[lhsPairs.indexOf(c)]];
+                return false;
+            }
+            return true;
+        },
+        rhs: (c) => {
+            if (c === otherPair[0]) {
+                some++;
+            } else if (c === otherPair[1]) {
+                some--;
+            }
+
+            return some >= 0;
+        },
+        init,
         ignoreNewlines: true,
     });
 }
