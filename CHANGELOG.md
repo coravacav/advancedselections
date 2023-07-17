@@ -1,3 +1,7 @@
+### 0.1.6
+
+Add `p` paragraph object
+
 ### 0.1.5
 
 Fix bug relating to outer.

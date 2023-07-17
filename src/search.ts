@@ -7,6 +7,9 @@ export type Continue = boolean;
 export type Context = {
     inMovement?: boolean;
     type?: Type;
+    direction?: 'backwards' | 'forwards';
+    pos?: Position;
+    doc?: TextDocument;
 };
 
 export type Callback = (s: string, context: Context) => Continue;
@@ -15,6 +18,8 @@ export type SearchSetting = {
     lhs: Callback;
     rhs: Callback;
     init?: (context: Context) => void;
+    postBackwards?: (context: Context) => void;
+    postForwards?: (context: Context) => void;
     type: Type;
     ignoreNewlines?: boolean;
     findFirst?: 'backwards' | 'forwards';
@@ -85,6 +90,10 @@ export function searchBackwards(
             return new Position(...conditionallyDecrementSelection(type, doc, line, 0));
         }
     }
+
+    if (!callback('START', context)) {
+        return new Position(0, 0);
+    }
 }
 
 export function searchForwards(
@@ -110,12 +119,16 @@ export function searchForwards(
             return new Position(...conditionallyIncrementSelection(type, doc, line, text.length));
         }
     }
+
+    if (!callback('END', context)) {
+        return new Position(doc.lineCount - 1, doc.lineAt(doc.lineCount - 1).text.length);
+    }
 }
 
 export function searchBothWays(
     pos: Position,
     doc: TextDocument,
-    { lhs, rhs, init, ...rest }: SearchSetting
+    { lhs, rhs, init, postBackwards, postForwards, ...rest }: SearchSetting
 ): [Position, Position] | undefined {
     if (!lhs(doc.lineAt(pos.line).text[pos.character], {})) {
         output.appendLine('Selection failed');
@@ -123,17 +136,23 @@ export function searchBothWays(
     }
 
     // Reset some state
-    init?.({ type: rest.type });
+    init?.({ type: rest.type, pos, doc });
 
-    const backwards = searchBackwards(pos, doc, lhs, rest, {});
+    const backwards = searchBackwards(pos, doc, lhs, rest, { direction: 'backwards' });
 
     if (!backwards) {
         return;
     }
 
-    const forwards = searchForwards(backwards, doc, rhs, rest, {});
+    const newBackwards = postBackwards?.({ pos: backwards, doc }) ?? backwards;
 
-    if (forwards) {
-        return [backwards, forwards];
+    const forwards = searchForwards(newBackwards, doc, rhs, rest, { direction: 'forwards' });
+
+    if (!forwards) {
+        return;
     }
+
+    const newForwards = postForwards?.({ pos: forwards, doc }) ?? forwards;
+
+    return [newBackwards, newForwards];
 }

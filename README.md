@@ -27,6 +27,7 @@ The current ones supported are listed here
 | `{` / `}`   | Braces                                 |
 | `<` / `>`   | Angle Brackets                         |
 | `%`         | Matching Pair (`()`, `[]`, `{}`, `<>`) |
+| `p`         | Paragraph                              |
 
 ## Extension Settings
 

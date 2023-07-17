@@ -2,7 +2,7 @@
     "name": "advancedselections",
     "displayName": "Advanced Selections",
     "description": "Advanced selections, pseudo vim-like",
-    "version": "0.1.5",
+    "version": "0.1.6",
     "repository": {
         "type": "git",
         "url": "https://github.com/coravacav/advancedselections.git"
@@ -43,6 +43,30 @@
             {
                 "command": "advancedselections.forwardsSelectOuterWord",
                 "title": "Forwards Select Outer Word"
+            },
+            {
+                "command": "advancedselections.selectInnerParagraph",
+                "title": "Select Inner Paragraph"
+            },
+            {
+                "command": "advancedselections.backwardsSelectInnerParagraph",
+                "title": "Backwards Select Inner Paragraph"
+            },
+            {
+                "command": "advancedselections.forwardsSelectInnerParagraph",
+                "title": "Forwards Select Inner Paragraph"
+            },
+            {
+                "command": "advancedselections.selectOuterParagraph",
+                "title": "Select Outer Paragraph"
+            },
+            {
+                "command": "advancedselections.backwardsSelectOuterParagraph",
+                "title": "Backwards Select Outer Paragraph"
+            },
+            {
+                "command": "advancedselections.forwardsSelectOuterParagraph",
+                "title": "Forwards Select Outer Paragraph"
             },
             {
                 "command": "advancedselections.selectInnerDoubleQuote",
@@ -273,6 +297,42 @@
                 "command": "advancedselections.backwardsSelectOuterWord",
                 "key": "ctrl+shift+alt+h o w",
                 "mac": "cmd+shift+alt+h o w"
+            },
+            {
+                "when": "editorTextFocus",
+                "command": "advancedselections.selectInnerParagraph",
+                "key": "ctrl+h i p",
+                "mac": "cmd+h i p"
+            },
+            {
+                "when": "editorTextFocus",
+                "command": "advancedselections.forwardsSelectInnerParagraph",
+                "key": "ctrl+shift+h i p",
+                "mac": "cmd+shift+h i p"
+            },
+            {
+                "when": "editorTextFocus",
+                "command": "advancedselections.backwardsSelectInnerParagraph",
+                "key": "ctrl+shift+alt+h i p",
+                "mac": "cmd+shift+alt+h i p"
+            },
+            {
+                "when": "editorTextFocus",
+                "command": "advancedselections.selectOuterParagraph",
+                "key": "ctrl+h o p",
+                "mac": "cmd+h o p"
+            },
+            {
+                "when": "editorTextFocus",
+                "command": "advancedselections.forwardsSelectOuterParagraph",
+                "key": "ctrl+shift+h o p",
+                "mac": "cmd+shift+h o p"
+            },
+            {
+                "when": "editorTextFocus",
+                "command": "advancedselections.backwardsSelectOuterParagraph",
+                "key": "ctrl+shift+alt+h o p",
+                "mac": "cmd+shift+alt+h o p"
             },
             {
                 "when": "editorTextFocus",

@@ -3,8 +3,8 @@
 import { alphaNumeric } from './regexes';
 import { output, registerOutput } from './log';
 import { create } from './create';
-import { Context, SearchSetting } from './search';
-import { ExtensionContext, commands } from 'vscode';
+import { Context, SearchSetting, decrementSelection, incrementSelection } from './search';
+import { ExtensionContext, Position, commands } from 'vscode';
 
 // Add new binding
 function anb(
@@ -39,7 +39,7 @@ export function activate(ctx: ExtensionContext) {
 
     let some = 0;
 
-    const init = (context: Context) => {
+    const matchingPairsInit = (context: Context) => {
         some = context.type === 'outer' ? -1 : 0;
     };
 
@@ -54,7 +54,7 @@ export function activate(ctx: ExtensionContext) {
 
             return some >= 0;
         },
-        init,
+        init: matchingPairsInit,
         ignoreNewlines: true,
     });
 
@@ -69,7 +69,7 @@ export function activate(ctx: ExtensionContext) {
 
             return some >= 0;
         },
-        init,
+        init: matchingPairsInit,
         ignoreNewlines: true,
     });
     anb(ctx, 'SquareBracket', {
@@ -83,7 +83,7 @@ export function activate(ctx: ExtensionContext) {
 
             return some >= 0;
         },
-        init,
+        init: matchingPairsInit,
         ignoreNewlines: true,
     });
     anb(ctx, 'AngleBracket', {
@@ -97,7 +97,7 @@ export function activate(ctx: ExtensionContext) {
 
             return some >= 0;
         },
-        init,
+        init: matchingPairsInit,
         ignoreNewlines: true,
     });
 
@@ -123,8 +123,48 @@ export function activate(ctx: ExtensionContext) {
 
             return some >= 0;
         },
-        init,
+        init: matchingPairsInit,
         ignoreNewlines: true,
+    });
+
+    let consecutiveNewlines = 0;
+    let hitStart = false;
+    let hitEnd = false;
+
+    anb(ctx, 'Paragraph', {
+        lhs: (c, { direction }) => {
+            direction === 'forwards' && output.appendLine('lhs: ' + c + ' ' + some);
+
+            if (c === 'START') {
+                hitStart = true;
+                return false;
+            }
+
+            if (c === 'END') {
+                hitEnd = true;
+                return false;
+            }
+
+            if (c === '\n') {
+                if (consecutiveNewlines === 1) {
+                    return false;
+                }
+                consecutiveNewlines++;
+            } else {
+                consecutiveNewlines = 0;
+            }
+
+            return true;
+        },
+        init: () => {
+            consecutiveNewlines = 0;
+            hitStart = false;
+            hitEnd = false;
+        },
+        postBackwards: ({ pos, doc }) =>
+            hitStart ? undefined : new Position(...incrementSelection(doc!, pos!.line, pos!.character)),
+        postForwards: ({ pos, doc }) =>
+            hitEnd ? undefined : new Position(...decrementSelection(doc!, pos!.line, pos!.character)),
     });
 }
 
