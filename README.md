@@ -4,6 +4,8 @@ VIM-like text objects for VSCode!
 
 ## Features
 
+-   Works fully with multicursor!
+
 Basic usage is `ctrl+h` or `cmd+h` then `i` for inner or `o` for outer, then the text object!
 
 The current ones supported are listed here
