@@ -1,3 +1,7 @@
+### 0.1.5
+
+Fix bug relating to outer.
+
 ### 0.1.4
 
 Make sure that _matching_ pairs are supported, not just _any_.

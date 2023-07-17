@@ -3,7 +3,7 @@
 import { alphaNumeric } from './regexes';
 import { output, registerOutput } from './log';
 import { create } from './create';
-import { SearchSetting } from './search';
+import { Context, SearchSetting } from './search';
 import { ExtensionContext, commands } from 'vscode';
 
 // Add new binding
@@ -39,8 +39,8 @@ export function activate(ctx: ExtensionContext) {
 
     let some = 0;
 
-    const init = () => {
-        some = 0;
+    const init = (context: Context) => {
+        some = context.type === 'outer' ? -1 : 0;
     };
 
     anb(ctx, 'Parenthesis', {
@@ -107,7 +107,6 @@ export function activate(ctx: ExtensionContext) {
     const rhsPairs = ['}', ']', '>', ')'];
     anb(ctx, 'MatchingPair', {
         lhs: (c) => {
-            output.appendLine('lhs: ' + c + !lhsPairs.includes(c));
             const ret = !lhsPairs.includes(c);
             if (!ret) {
                 otherPair = [c, rhsPairs[lhsPairs.indexOf(c)]];

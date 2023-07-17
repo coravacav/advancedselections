@@ -6,6 +6,7 @@ export type Continue = boolean;
 
 export type Context = {
     inMovement?: boolean;
+    type?: Type;
 };
 
 export type Callback = (s: string, context: Context) => Continue;
@@ -13,7 +14,7 @@ export type Callback = (s: string, context: Context) => Continue;
 export type SearchSetting = {
     lhs: Callback;
     rhs: Callback;
-    init?: () => void;
+    init?: (context: Context) => void;
     type: Type;
     ignoreNewlines?: boolean;
     findFirst?: 'backwards' | 'forwards';
@@ -122,7 +123,7 @@ export function searchBothWays(
     }
 
     // Reset some state
-    init?.();
+    init?.({ type: rest.type });
 
     const backwards = searchBackwards(pos, doc, lhs, rest, {});
 
