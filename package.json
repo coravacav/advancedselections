@@ -15,6 +15,7 @@
     "categories": [
         "Keymaps"
     ],
+    "publisher": "stefanbt",
     "activationEvents": [],
     "main": "./out/extension.js",
     "contributes": {

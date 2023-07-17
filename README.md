@@ -1,4 +1,4 @@
-# Text Objects VSCode README
+# Text Objects for VSCode
 
 VIM-like text objects for VSCode!
 
