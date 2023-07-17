@@ -16,16 +16,17 @@ These are rudimentary keybinds, if you find better ones to recommend, or want to
 
 The current ones supported are listed here
 
-| Text Object | Description    |
-| ----------- | -------------- |
-| `w`         | Word           |
-| `"`         | String (")     |
-| `'`         | String (')     |
-| \`          | String(\`)     |
-| `(` / `)`   | Parentheses    |
-| `[` / `]`   | Brackets       |
-| `{` / `}`   | Braces         |
-| `<` / `>`   | Angle Brackets |
+| Text Object | Description                            |
+| ----------- | -------------------------------------- |
+| `w`         | Word                                   |
+| `"`         | String (")                             |
+| `'`         | String (')                             |
+| \`          | String(\`)                             |
+| `(` / `)`   | Parentheses                            |
+| `[` / `]`   | Brackets                               |
+| `{` / `}`   | Braces                                 |
+| `<` / `>`   | Angle Brackets                         |
+| `%`         | Matching Pair (`()`, `[]`, `{}`, `<>`) |
 
 ## Extension Settings
 

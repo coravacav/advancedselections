@@ -189,6 +189,30 @@
                 "title": "Forwards Select Outer Square Bracket"
             },
             {
+                "command": "advancedselections.selectInnerMatchingPair",
+                "title": "Select Inner Matching Pair"
+            },
+            {
+                "command": "advancedselections.backwardsSelectInnerMatchingPair",
+                "title": "Backwards Select Inner Matching Pair"
+            },
+            {
+                "command": "advancedselections.forwardsSelectInnerMatchingPair",
+                "title": "Forwards Select Inner Matching Pair"
+            },
+            {
+                "command": "advancedselections.selectOuterMatchingPair",
+                "title": "Select Outer Matching Pair"
+            },
+            {
+                "command": "advancedselections.backwardsSelectOuterMatchingPair",
+                "title": "Backwards Select Outer Matching Pair"
+            },
+            {
+                "command": "advancedselections.forwardsSelectOuterMatchingPair",
+                "title": "Forwards Select Outer Matching Pair"
+            },
+            {
                 "command": "advancedselections.selectInnerAngleBracket",
                 "title": "Select Inner Angle Bracket"
             },
@@ -249,6 +273,42 @@
                 "command": "advancedselections.backwardsSelectOuterWord",
                 "key": "ctrl+shift+alt+h o w",
                 "mac": "cmd+shift+alt+h o w"
+            },
+            {
+                "when": "editorTextFocus",
+                "command": "advancedselections.selectInnerMatchingPair",
+                "key": "ctrl+h i shift+5",
+                "mac": "cmd+h i shift+5"
+            },
+            {
+                "when": "editorTextFocus",
+                "command": "advancedselections.forwardsSelectInnerMatchingPair",
+                "key": "ctrl+shift+h i shift+5",
+                "mac": "cmd+shift+h i shift+5"
+            },
+            {
+                "when": "editorTextFocus",
+                "command": "advancedselections.backwardsSelectInnerMatchingPair",
+                "key": "ctrl+shift+alt+h i shift+5",
+                "mac": "cmd+shift+alt+h i shift+5"
+            },
+            {
+                "when": "editorTextFocus",
+                "command": "advancedselections.selectOuterMatchingPair",
+                "key": "ctrl+h o shift+5",
+                "mac": "cmd+h o shift+5"
+            },
+            {
+                "when": "editorTextFocus",
+                "command": "advancedselections.forwardsSelectOuterMatchingPair",
+                "key": "ctrl+shift+h o shift+5",
+                "mac": "cmd+shift+h o shift+5"
+            },
+            {
+                "when": "editorTextFocus",
+                "command": "advancedselections.backwardsSelectOuterMatchingPair",
+                "key": "ctrl+shift+alt+h o shift+5",
+                "mac": "cmd+shift+alt+h o shift+5"
             },
             {
                 "when": "editorTextFocus",

@@ -40,6 +40,14 @@ export function activate(ctx: ExtensionContext) {
     anb(ctx, 'CurlyBrace', { lhs: (c) => c !== '{', rhs: (c) => c !== '}', ignoreNewlines: true });
     anb(ctx, 'SquareBracket', { lhs: (c) => c !== '[', rhs: (c) => c !== ']', ignoreNewlines: true });
     anb(ctx, 'AngleBracket', { lhs: (c) => c !== '<', rhs: (c) => c !== '>', ignoreNewlines: true });
+
+    const lhsPairs = ['{', '[', '<', '('];
+    const rhsPairs = ['}', ']', '>', ')'];
+    anb(ctx, 'MatchingPair', {
+        lhs: (c) => !lhsPairs.includes(c),
+        rhs: (c) => !rhsPairs.includes(c),
+        ignoreNewlines: true,
+    });
 }
 
 export function deactivate() {}
