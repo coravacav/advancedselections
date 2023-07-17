@@ -1,64 +1,107 @@
-import { Position } from 'vscode';
+import { Position, TextDocument } from 'vscode';
 import { Pair } from './getPair';
+import { Type } from './create';
 import { output } from './log';
 
 export type Continue = boolean;
 export type Callback = (s: string) => Continue;
 
-export function searchBackwards([pos, doc]: Pair, callback: Callback): Position | undefined {
+export type SearchSetting = {
+    lhs: Callback;
+    rhs?: Callback;
+    type: Type;
+    blockNewlines?: boolean;
+};
+
+function decrementSelection(type: Type, doc: TextDocument, line: number, char: number): [number, number] {
+    if (type === 'inner') {
+        return [line, char];
+    }
+
+    if (char === 0) {
+        return [line - 1, doc.lineAt(line - 1).text.length];
+    }
+
+    return [line, char - 1];
+}
+
+function incrementSelection(type: Type, doc: TextDocument, line: number, char: number): [number, number] {
+    if (type === 'inner') {
+        return [line, char];
+    }
+
+    if (char === doc.lineAt(line).text.length) {
+        return [line + 1, 0];
+    }
+
+    return [line, char + 1];
+}
+
+export function searchBackwards(
+    [pos, doc]: Pair,
+    callback: Callback,
+    type: Type,
+    blockNewlines: boolean
+): Position | undefined {
+    let startPos: number | undefined = pos.character;
+
     for (let line = pos.line; line >= 0; line--) {
         const text = doc.lineAt(line).text;
-        for (let char = pos.character; char >= 0; char--) {
-            output.appendLine(JSON.stringify(text[char]));
-            const result = callback(text[char]);
-            if (!result) {
-                return new Position(line, char + 1);
+        for (let char = startPos ?? text.length - 1; char >= 0; char--) {
+            if (!callback(text[char])) {
+                return new Position(...decrementSelection(type, doc, line, char + 1));
             }
         }
 
-        const result = callback('\n');
-        if (!result) {
-            return new Position(line, 0);
+        startPos = undefined;
+
+        if (!blockNewlines && !callback('\n')) {
+            return new Position(...decrementSelection(type, doc, line, 0));
         }
     }
 }
 
-export function searchForwards([pos, doc]: Pair, callback: Callback): Position | undefined {
+export function searchForwards(
+    [pos, doc]: Pair,
+    callback: Callback,
+    type: Type,
+    blockNewlines: boolean
+): Position | undefined {
+    let startPos: number | undefined = pos.character;
+
     for (let line = pos.line; line < doc.lineCount; line++) {
         const text = doc.lineAt(line).text;
-        for (let char = pos.character; char < text.length; char++) {
-            output.appendLine(JSON.stringify(text[char]));
-            const result = callback(text[char]);
-            if (!result) {
-                return new Position(line, char);
+        for (let char = startPos ?? 0; char < text.length; char++) {
+            if (!callback(text[char])) {
+                return new Position(...incrementSelection(type, doc, line, char));
             }
         }
 
-        const result = callback('\n');
-        if (!result) {
-            return new Position(line, text.length);
+        startPos = undefined;
+
+        if (!blockNewlines && !callback('\n')) {
+            return new Position(...incrementSelection(type, doc, line, text.length));
         }
     }
 }
 
-export function searchBothWays(pair: Pair, callback: Callback): [Position, Position] | undefined {
-    if (!callback(pair[1].lineAt(pair[0].line).text[pair[0].character])) {
+export function searchBothWays(
+    pair: Pair,
+    { lhs, rhs = lhs, type, blockNewlines = false }: SearchSetting
+): [Position, Position] | undefined {
+    if (!lhs(pair[1].lineAt(pair[0].line).text[pair[0].character])) {
+        output.appendLine('Selection failed');
         return;
     }
 
-    const backwards = searchBackwards(pair, callback);
-    const forwards = searchForwards(pair, callback);
+    const backwards = searchBackwards(pair, lhs, type, blockNewlines);
+    const forwards = searchForwards(pair, rhs, type, blockNewlines);
+
+    output.appendLine(`Backwards: ${JSON.stringify(backwards)}`);
+    output.appendLine(`Forwards: ${JSON.stringify(forwards)}`);
+    output.appendLine(`Pair: ${lhs === rhs}`);
 
     if (backwards && forwards) {
         return [backwards, forwards];
     }
 }
-
-// export function findThenSearch(pair: Pair, callback: Callback): [Position, Position] | undefined {
-//     const backwards = searchBackwards(pair, callback);
-//     const forwards = searchForwards(pair, callback);
-
-//     if (backwards && forwards) {
-//         return [backwards, forwards];
-//     }
-// }

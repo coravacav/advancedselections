@@ -2,7 +2,7 @@
     "name": "textobjects",
     "displayName": "Text Objects",
     "description": "VIM-like text objects in VSCode",
-    "version": "0.0.1",
+    "version": "0.1.0",
     "engines": {
         "vscode": "^1.80.0"
     },
@@ -14,8 +14,214 @@
     "contributes": {
         "commands": [
             {
-                "command": "textobjects.selectWord",
-                "title": "Select Word"
+                "command": "textobjects.selectInnerWord",
+                "title": "Select Inner Word"
+            },
+            {
+                "command": "textobjects.selectOuterWord",
+                "title": "Select Outer Word"
+            },
+            {
+                "command": "textobjects.selectInnerDoubleQuote",
+                "title": "Select Inner Double Quote"
+            },
+            {
+                "command": "textobjects.selectOuterDoubleQuote",
+                "title": "Select Outer Double Quote"
+            },
+            {
+                "command": "textobjects.selectInnerSingleQuote",
+                "title": "Select Inner Single Quote"
+            },
+            {
+                "command": "textobjects.selectOuterSingleQuote",
+                "title": "Select Outer Single Quote"
+            },
+            {
+                "command": "textobjects.selectInnerBacktick",
+                "title": "Select Inner Backtick"
+            },
+            {
+                "command": "textobjects.selectOuterBacktick",
+                "title": "Select Outer Backtick"
+            },
+            {
+                "command": "textobjects.selectInnerParenthesis",
+                "title": "Select Inner Parenthesis"
+            },
+            {
+                "command": "textobjects.selectOuterParenthesis",
+                "title": "Select Outer Parenthesis"
+            },
+            {
+                "command": "textobjects.selectInnerCurlyBrace",
+                "title": "Select Inner Curly Brace"
+            },
+            {
+                "command": "textobjects.selectOuterCurlyBrace",
+                "title": "Select Outer Curly Brace"
+            },
+            {
+                "command": "textobjects.selectInnerSquareBracket",
+                "title": "Select Inner Square Bracket"
+            },
+            {
+                "command": "textobjects.selectOuterSquareBracket",
+                "title": "Select Outer Square Bracket"
+            },
+            {
+                "command": "textobjects.selectInnerAngleBracket",
+                "title": "Select Inner Angle Bracket"
+            },
+            {
+                "command": "textobjects.selectOuterAngleBracket",
+                "title": "Select Outer Angle Bracket"
+            }
+        ],
+        "keybindings": [
+            {
+                "when": "editorTextFocus",
+                "command": "textobjects.selectInnerWord",
+                "key": "ctrl+h i w",
+                "mac": "cmd+h cmd+i cmd+w"
+            },
+            {
+                "when": "editorTextFocus",
+                "command": "textobjects.selectOuterWord",
+                "key": "ctrl+h o w",
+                "mac": "cmd+h cmd+o cmd+w"
+            },
+            {
+                "when": "editorTextFocus",
+                "command": "textobjects.selectInnerDoubleQuote",
+                "key": "ctrl+h i shift+'",
+                "mac": "cmd+h cmd+i cmd+shift+'"
+            },
+            {
+                "when": "editorTextFocus",
+                "command": "textobjects.selectOuterDoubleQuote",
+                "key": "ctrl+h o shift+'",
+                "mac": "cmd+h cmd+o cmd+shift+'"
+            },
+            {
+                "when": "editorTextFocus",
+                "command": "textobjects.selectInnerSingleQuote",
+                "key": "ctrl+h i '",
+                "mac": "cmd+h cmd+i cmd+'"
+            },
+            {
+                "when": "editorTextFocus",
+                "command": "textobjects.selectOuterSingleQuote",
+                "key": "ctrl+h o '",
+                "mac": "cmd+h cmd+o cmd+'"
+            },
+            {
+                "when": "editorTextFocus",
+                "command": "textobjects.selectInnerBacktick",
+                "key": "ctrl+h i `",
+                "mac": "cmd+h cmd+i cmd+`"
+            },
+            {
+                "when": "editorTextFocus",
+                "command": "textobjects.selectOuterBacktick",
+                "key": "ctrl+h o `",
+                "mac": "cmd+h cmd+o cmd+`"
+            },
+            {
+                "when": "editorTextFocus",
+                "command": "textobjects.selectInnerParenthesis",
+                "key": "ctrl+h i shift+9",
+                "mac": "cmd+h cmd+i cmd+shift+9"
+            },
+            {
+                "when": "editorTextFocus",
+                "command": "textobjects.selectOuterParenthesis",
+                "key": "ctrl+h o shift+9",
+                "mac": "cmd+h cmd+o cmd+shift+9"
+            },
+            {
+                "when": "editorTextFocus",
+                "command": "textobjects.selectInnerParenthesis",
+                "key": "ctrl+h i shift+8",
+                "mac": "cmd+h cmd+i cmd+shift+8"
+            },
+            {
+                "when": "editorTextFocus",
+                "command": "textobjects.selectOuterParenthesis",
+                "key": "ctrl+h o shift+8",
+                "mac": "cmd+h cmd+o cmd+shift+8"
+            },
+            {
+                "when": "editorTextFocus",
+                "command": "textobjects.selectInnerCurlyBrace",
+                "key": "ctrl+h i shift+]",
+                "mac": "cmd+h cmd+i cmd+shift+]"
+            },
+            {
+                "when": "editorTextFocus",
+                "command": "textobjects.selectOuterCurlyBrace",
+                "key": "ctrl+h o shift+]",
+                "mac": "cmd+h cmd+o cmd+shift+]"
+            },
+            {
+                "when": "editorTextFocus",
+                "command": "textobjects.selectInnerCurlyBrace",
+                "key": "ctrl+h i shift+[",
+                "mac": "cmd+h cmd+i cmd+shift+["
+            },
+            {
+                "when": "editorTextFocus",
+                "command": "textobjects.selectOuterCurlyBrace",
+                "key": "ctrl+h o shift+[",
+                "mac": "cmd+h cmd+o cmd+shift+["
+            },
+            {
+                "when": "editorTextFocus",
+                "command": "textobjects.selectInnerSquareBracket",
+                "key": "ctrl+h i ]",
+                "mac": "cmd+h cmd+i cmd+]"
+            },
+            {
+                "when": "editorTextFocus",
+                "command": "textobjects.selectOuterSquareBracket",
+                "key": "ctrl+h o ]",
+                "mac": "cmd+h cmd+o cmd+]"
+            },
+            {
+                "when": "editorTextFocus",
+                "command": "textobjects.selectInnerSquareBracket",
+                "key": "ctrl+h i [",
+                "mac": "cmd+h cmd+i cmd+["
+            },
+            {
+                "when": "editorTextFocus",
+                "command": "textobjects.selectOuterSquareBracket",
+                "key": "ctrl+h o [",
+                "mac": "cmd+h cmd+o cmd+["
+            },
+            {
+                "when": "editorTextFocus",
+                "command": "textobjects.selectInnerAngleBracket",
+                "key": "ctrl+h i shift+,",
+                "mac": "cmd+h cmd+i cmd+shift+,"
+            },
+            {
+                "when": "editorTextFocus",
+                "command": "textobjects.selectOuterAngleBracket",
+                "key": "ctrl+h o shift+,",
+                "mac": "cmd+h cmd+o cmd+shift+,"
+            },
+            {
+                "when": "editorTextFocus",
+                "command": "textobjects.selectInnerAngleBracket",
+                "key": "ctrl+h i shift+.",
+                "mac": "cmd+h cmd+i cmd+shift+."
+            },
+            {
+                "when": "editorTextFocus",
+                "command": "textobjects.selectOuterAngleBracket",
+                "key": "ctrl+h o shift+.",
+                "mac": "cmd+h cmd+o cmd+shift+."
             }
         ]
     },

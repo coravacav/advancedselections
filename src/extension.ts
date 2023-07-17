@@ -1,39 +1,32 @@
 // The module 'vscode' contains the VS Code extensibility API
 // Import the module and reference it with the alias vscode in your code below
-import * as vscode from 'vscode';
-import { getPair } from './getPair';
-import { searchBothWays } from './search';
 import { alphaNumeric } from './regexes';
-import { output, registerOutput } from './log';
+import { registerOutput } from './log';
+import { create } from './create';
+import { SearchSetting } from './search';
+import { ExtensionContext, commands } from 'vscode';
 
-// This method is called when your extension is activated
-// Your extension is activated the very first time the command is executed
-export function activate(context: vscode.ExtensionContext) {
-    registerOutput();
-
-    // The command has been defined in the package.json file
-    // Now provide the implementation of the command with registerCommand
-    // The commandId parameter must match the command field in package.json
-    let disposable = vscode.commands.registerCommand('textobjects.selectWord', () => {
-        const editor = vscode.window.activeTextEditor;
-        if (!editor) {
-            return;
-        }
-
-        editor.selections = editor.selections
-            .map((selection) => {
-                const pair = getPair(editor, selection);
-                const search = searchBothWays(pair, (char) => Boolean(char.match(alphaNumeric)));
-
-                if (search) {
-                    return new vscode.Selection(...search);
-                }
-            })
-            .filter(Boolean);
-    });
-
-    context.subscriptions.push(disposable);
+// Add new binding
+function anb(ctx: ExtensionContext, name: string, setting: Omit<SearchSetting, 'type'>) {
+    ctx.subscriptions.push(
+        commands.registerCommand('textobjects.selectInner' + name, create({ ...setting, type: 'inner' }))
+    );
+    ctx.subscriptions.push(
+        commands.registerCommand('textobjects.selectOuter' + name, create({ ...setting, type: 'outer' }))
+    );
 }
 
-// This method is called when your extension is deactivated
+export function activate(ctx: ExtensionContext) {
+    registerOutput();
+
+    anb(ctx, 'Word', { lhs: (c) => Boolean(c.match(alphaNumeric)) });
+    anb(ctx, 'DoubleQuote', { lhs: (c) => c !== '"' });
+    anb(ctx, 'SingleQuote', { lhs: (c) => c !== "'" });
+    anb(ctx, 'Backtick', { lhs: (c) => c !== '`', blockNewlines: true });
+    anb(ctx, 'Parenthesis', { lhs: (c) => c !== '(', rhs: (c) => c !== ')', blockNewlines: true });
+    anb(ctx, 'CurlyBrace', { lhs: (c) => c !== '{', rhs: (c) => c !== '}', blockNewlines: true });
+    anb(ctx, 'SquareBracket', { lhs: (c) => c !== '[', rhs: (c) => c !== ']', blockNewlines: true });
+    anb(ctx, 'AngleBracket', { lhs: (c) => c !== '<', rhs: (c) => c !== '>', blockNewlines: true });
+}
+
 export function deactivate() {}
