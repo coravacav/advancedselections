@@ -1,6 +1,6 @@
-# Text Objects for VSCode
+# Advanced Motions for VSCode
 
-VIM-like text objects for VSCode!
+Gives you motion superpowers, partially like vim-like text objects for VSCode!
 
 ## Features
 
