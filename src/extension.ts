@@ -9,10 +9,10 @@ import { ExtensionContext, commands } from 'vscode';
 // Add new binding
 function anb(ctx: ExtensionContext, name: string, setting: Omit<SearchSetting, 'type'>) {
     ctx.subscriptions.push(
-        commands.registerCommand('textobjects.selectInner' + name, create({ ...setting, type: 'inner' }))
+        commands.registerCommand('advancedselections.selectInner' + name, create({ ...setting, type: 'inner' }))
     );
     ctx.subscriptions.push(
-        commands.registerCommand('textobjects.selectOuter' + name, create({ ...setting, type: 'outer' }))
+        commands.registerCommand('advancedselections.selectOuter' + name, create({ ...setting, type: 'outer' }))
     );
 }
 

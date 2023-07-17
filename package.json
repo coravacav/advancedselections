@@ -1,13 +1,13 @@
 {
-    "name": "textobjects",
-    "displayName": "Text Objects",
-    "description": "VIM-like text objects in VSCode",
+    "name": "advancedselections",
+    "displayName": "Advanced Selections",
+    "description": "Advanced selections, pseudo vim-like",
     "version": "0.1.0",
     "repository": {
         "type": "git",
-        "url": "https://github.com/coravacav/textobjects.git"
+        "url": "https://github.com/coravacav/advancedselections.git"
     },
-    "homepage": "https://github.com/coravacav/textobjects",
+    "homepage": "https://github.com/coravacav/advancedselections",
     "license": "MIT",
     "engines": {
         "vscode": "^1.80.0"
@@ -21,212 +21,212 @@
     "contributes": {
         "commands": [
             {
-                "command": "textobjects.selectInnerWord",
+                "command": "advancedselections.selectInnerWord",
                 "title": "Select Inner Word"
             },
             {
-                "command": "textobjects.selectOuterWord",
+                "command": "advancedselections.selectOuterWord",
                 "title": "Select Outer Word"
             },
             {
-                "command": "textobjects.selectInnerDoubleQuote",
+                "command": "advancedselections.selectInnerDoubleQuote",
                 "title": "Select Inner Double Quote"
             },
             {
-                "command": "textobjects.selectOuterDoubleQuote",
+                "command": "advancedselections.selectOuterDoubleQuote",
                 "title": "Select Outer Double Quote"
             },
             {
-                "command": "textobjects.selectInnerSingleQuote",
+                "command": "advancedselections.selectInnerSingleQuote",
                 "title": "Select Inner Single Quote"
             },
             {
-                "command": "textobjects.selectOuterSingleQuote",
+                "command": "advancedselections.selectOuterSingleQuote",
                 "title": "Select Outer Single Quote"
             },
             {
-                "command": "textobjects.selectInnerBacktick",
+                "command": "advancedselections.selectInnerBacktick",
                 "title": "Select Inner Backtick"
             },
             {
-                "command": "textobjects.selectOuterBacktick",
+                "command": "advancedselections.selectOuterBacktick",
                 "title": "Select Outer Backtick"
             },
             {
-                "command": "textobjects.selectInnerParenthesis",
+                "command": "advancedselections.selectInnerParenthesis",
                 "title": "Select Inner Parenthesis"
             },
             {
-                "command": "textobjects.selectOuterParenthesis",
+                "command": "advancedselections.selectOuterParenthesis",
                 "title": "Select Outer Parenthesis"
             },
             {
-                "command": "textobjects.selectInnerCurlyBrace",
+                "command": "advancedselections.selectInnerCurlyBrace",
                 "title": "Select Inner Curly Brace"
             },
             {
-                "command": "textobjects.selectOuterCurlyBrace",
+                "command": "advancedselections.selectOuterCurlyBrace",
                 "title": "Select Outer Curly Brace"
             },
             {
-                "command": "textobjects.selectInnerSquareBracket",
+                "command": "advancedselections.selectInnerSquareBracket",
                 "title": "Select Inner Square Bracket"
             },
             {
-                "command": "textobjects.selectOuterSquareBracket",
+                "command": "advancedselections.selectOuterSquareBracket",
                 "title": "Select Outer Square Bracket"
             },
             {
-                "command": "textobjects.selectInnerAngleBracket",
+                "command": "advancedselections.selectInnerAngleBracket",
                 "title": "Select Inner Angle Bracket"
             },
             {
-                "command": "textobjects.selectOuterAngleBracket",
+                "command": "advancedselections.selectOuterAngleBracket",
                 "title": "Select Outer Angle Bracket"
             }
         ],
         "keybindings": [
             {
                 "when": "editorTextFocus",
-                "command": "textobjects.selectInnerWord",
+                "command": "advancedselections.selectInnerWord",
                 "key": "ctrl+h i w",
                 "mac": "cmd+h cmd+i cmd+w"
             },
             {
                 "when": "editorTextFocus",
-                "command": "textobjects.selectOuterWord",
+                "command": "advancedselections.selectOuterWord",
                 "key": "ctrl+h o w",
                 "mac": "cmd+h cmd+o cmd+w"
             },
             {
                 "when": "editorTextFocus",
-                "command": "textobjects.selectInnerDoubleQuote",
+                "command": "advancedselections.selectInnerDoubleQuote",
                 "key": "ctrl+h i shift+'",
                 "mac": "cmd+h cmd+i cmd+shift+'"
             },
             {
                 "when": "editorTextFocus",
-                "command": "textobjects.selectOuterDoubleQuote",
+                "command": "advancedselections.selectOuterDoubleQuote",
                 "key": "ctrl+h o shift+'",
                 "mac": "cmd+h cmd+o cmd+shift+'"
             },
             {
                 "when": "editorTextFocus",
-                "command": "textobjects.selectInnerSingleQuote",
+                "command": "advancedselections.selectInnerSingleQuote",
                 "key": "ctrl+h i '",
                 "mac": "cmd+h cmd+i cmd+'"
             },
             {
                 "when": "editorTextFocus",
-                "command": "textobjects.selectOuterSingleQuote",
+                "command": "advancedselections.selectOuterSingleQuote",
                 "key": "ctrl+h o '",
                 "mac": "cmd+h cmd+o cmd+'"
             },
             {
                 "when": "editorTextFocus",
-                "command": "textobjects.selectInnerBacktick",
+                "command": "advancedselections.selectInnerBacktick",
                 "key": "ctrl+h i `",
                 "mac": "cmd+h cmd+i cmd+`"
             },
             {
                 "when": "editorTextFocus",
-                "command": "textobjects.selectOuterBacktick",
+                "command": "advancedselections.selectOuterBacktick",
                 "key": "ctrl+h o `",
                 "mac": "cmd+h cmd+o cmd+`"
             },
             {
                 "when": "editorTextFocus",
-                "command": "textobjects.selectInnerParenthesis",
+                "command": "advancedselections.selectInnerParenthesis",
                 "key": "ctrl+h i shift+9",
                 "mac": "cmd+h cmd+i cmd+shift+9"
             },
             {
                 "when": "editorTextFocus",
-                "command": "textobjects.selectOuterParenthesis",
+                "command": "advancedselections.selectOuterParenthesis",
                 "key": "ctrl+h o shift+9",
                 "mac": "cmd+h cmd+o cmd+shift+9"
             },
             {
                 "when": "editorTextFocus",
-                "command": "textobjects.selectInnerParenthesis",
+                "command": "advancedselections.selectInnerParenthesis",
                 "key": "ctrl+h i shift+8",
                 "mac": "cmd+h cmd+i cmd+shift+8"
             },
             {
                 "when": "editorTextFocus",
-                "command": "textobjects.selectOuterParenthesis",
+                "command": "advancedselections.selectOuterParenthesis",
                 "key": "ctrl+h o shift+8",
                 "mac": "cmd+h cmd+o cmd+shift+8"
             },
             {
                 "when": "editorTextFocus",
-                "command": "textobjects.selectInnerCurlyBrace",
+                "command": "advancedselections.selectInnerCurlyBrace",
                 "key": "ctrl+h i shift+]",
                 "mac": "cmd+h cmd+i cmd+shift+]"
             },
             {
                 "when": "editorTextFocus",
-                "command": "textobjects.selectOuterCurlyBrace",
+                "command": "advancedselections.selectOuterCurlyBrace",
                 "key": "ctrl+h o shift+]",
                 "mac": "cmd+h cmd+o cmd+shift+]"
             },
             {
                 "when": "editorTextFocus",
-                "command": "textobjects.selectInnerCurlyBrace",
+                "command": "advancedselections.selectInnerCurlyBrace",
                 "key": "ctrl+h i shift+[",
                 "mac": "cmd+h cmd+i cmd+shift+["
             },
             {
                 "when": "editorTextFocus",
-                "command": "textobjects.selectOuterCurlyBrace",
+                "command": "advancedselections.selectOuterCurlyBrace",
                 "key": "ctrl+h o shift+[",
                 "mac": "cmd+h cmd+o cmd+shift+["
             },
             {
                 "when": "editorTextFocus",
-                "command": "textobjects.selectInnerSquareBracket",
+                "command": "advancedselections.selectInnerSquareBracket",
                 "key": "ctrl+h i ]",
                 "mac": "cmd+h cmd+i cmd+]"
             },
             {
                 "when": "editorTextFocus",
-                "command": "textobjects.selectOuterSquareBracket",
+                "command": "advancedselections.selectOuterSquareBracket",
                 "key": "ctrl+h o ]",
                 "mac": "cmd+h cmd+o cmd+]"
             },
             {
                 "when": "editorTextFocus",
-                "command": "textobjects.selectInnerSquareBracket",
+                "command": "advancedselections.selectInnerSquareBracket",
                 "key": "ctrl+h i [",
                 "mac": "cmd+h cmd+i cmd+["
             },
             {
                 "when": "editorTextFocus",
-                "command": "textobjects.selectOuterSquareBracket",
+                "command": "advancedselections.selectOuterSquareBracket",
                 "key": "ctrl+h o [",
                 "mac": "cmd+h cmd+o cmd+["
             },
             {
                 "when": "editorTextFocus",
-                "command": "textobjects.selectInnerAngleBracket",
+                "command": "advancedselections.selectInnerAngleBracket",
                 "key": "ctrl+h i shift+,",
                 "mac": "cmd+h cmd+i cmd+shift+,"
             },
             {
                 "when": "editorTextFocus",
-                "command": "textobjects.selectOuterAngleBracket",
+                "command": "advancedselections.selectOuterAngleBracket",
                 "key": "ctrl+h o shift+,",
                 "mac": "cmd+h cmd+o cmd+shift+,"
             },
             {
                 "when": "editorTextFocus",
-                "command": "textobjects.selectInnerAngleBracket",
+                "command": "advancedselections.selectInnerAngleBracket",
                 "key": "ctrl+h i shift+.",
                 "mac": "cmd+h cmd+i cmd+shift+."
             },
             {
                 "when": "editorTextFocus",
-                "command": "textobjects.selectOuterAngleBracket",
+                "command": "advancedselections.selectOuterAngleBracket",
                 "key": "ctrl+h o shift+.",
                 "mac": "cmd+h cmd+o cmd+shift+."
             }
