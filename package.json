@@ -3,6 +3,12 @@
     "displayName": "Text Objects",
     "description": "VIM-like text objects in VSCode",
     "version": "0.1.0",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/coravacav/textobjects.git"
+    },
+    "homepage": "https://github.com/coravacav/textobjects",
+    "license": "MIT",
     "engines": {
         "vscode": "^1.80.0"
     },
