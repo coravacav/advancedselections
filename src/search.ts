@@ -1,5 +1,4 @@
 import { Position, TextDocument } from 'vscode';
-import { Pair } from './getPair';
 import { Type } from './create';
 import { output } from './log';
 
@@ -8,16 +7,13 @@ export type Callback = (s: string) => Continue;
 
 export type SearchSetting = {
     lhs: Callback;
-    rhs?: Callback;
+    rhs: Callback;
     type: Type;
-    blockNewlines?: boolean;
+    ignoreNewlines?: boolean;
+    findFirst?: 'backwards' | 'forwards';
 };
 
-function decrementSelection(type: Type, doc: TextDocument, line: number, char: number): [number, number] {
-    if (type === 'inner') {
-        return [line, char];
-    }
-
+export function decrementSelection(doc: TextDocument, line: number, char: number): [number, number] {
     if (char === 0) {
         return [line - 1, doc.lineAt(line - 1).text.length];
     }
@@ -25,11 +21,20 @@ function decrementSelection(type: Type, doc: TextDocument, line: number, char: n
     return [line, char - 1];
 }
 
-function incrementSelection(type: Type, doc: TextDocument, line: number, char: number): [number, number] {
+export function conditionallyDecrementSelection(
+    type: Type,
+    doc: TextDocument,
+    line: number,
+    char: number
+): [number, number] {
     if (type === 'inner') {
         return [line, char];
     }
 
+    return decrementSelection(doc, line, char);
+}
+
+export function incrementSelection(doc: TextDocument, line: number, char: number): [number, number] {
     if (char === doc.lineAt(line).text.length) {
         return [line + 1, 0];
     }
@@ -37,11 +42,24 @@ function incrementSelection(type: Type, doc: TextDocument, line: number, char: n
     return [line, char + 1];
 }
 
-export function searchBackwards(
-    [pos, doc]: Pair,
-    callback: Callback,
+export function conditionallyIncrementSelection(
     type: Type,
-    blockNewlines: boolean
+    doc: TextDocument,
+    line: number,
+    char: number
+): [number, number] {
+    if (type === 'inner') {
+        return [line, char];
+    }
+
+    return incrementSelection(doc, line, char);
+}
+
+export function searchBackwards(
+    pos: Position,
+    doc: TextDocument,
+    callback: Callback,
+    { type, ignoreNewlines: blockNewlines = false }: Pick<SearchSetting, 'type' | 'ignoreNewlines'>
 ): Position | undefined {
     let startPos: number | undefined = pos.character;
 
@@ -49,23 +67,23 @@ export function searchBackwards(
         const text = doc.lineAt(line).text;
         for (let char = startPos ?? text.length - 1; char >= 0; char--) {
             if (!callback(text[char])) {
-                return new Position(...decrementSelection(type, doc, line, char + 1));
+                return new Position(...conditionallyDecrementSelection(type, doc, line, char + 1));
             }
         }
 
         startPos = undefined;
 
         if (!blockNewlines && !callback('\n')) {
-            return new Position(...decrementSelection(type, doc, line, 0));
+            return new Position(...conditionallyDecrementSelection(type, doc, line, 0));
         }
     }
 }
 
 export function searchForwards(
-    [pos, doc]: Pair,
+    pos: Position,
+    doc: TextDocument,
     callback: Callback,
-    type: Type,
-    blockNewlines: boolean
+    { type, ignoreNewlines: blockNewlines = false }: Pick<SearchSetting, 'type' | 'ignoreNewlines'>
 ): Position | undefined {
     let startPos: number | undefined = pos.character;
 
@@ -73,33 +91,30 @@ export function searchForwards(
         const text = doc.lineAt(line).text;
         for (let char = startPos ?? 0; char < text.length; char++) {
             if (!callback(text[char])) {
-                return new Position(...incrementSelection(type, doc, line, char));
+                return new Position(...conditionallyIncrementSelection(type, doc, line, char));
             }
         }
 
         startPos = undefined;
 
         if (!blockNewlines && !callback('\n')) {
-            return new Position(...incrementSelection(type, doc, line, text.length));
+            return new Position(...conditionallyIncrementSelection(type, doc, line, text.length));
         }
     }
 }
 
 export function searchBothWays(
-    pair: Pair,
-    { lhs, rhs = lhs, type, blockNewlines = false }: SearchSetting
+    pos: Position,
+    doc: TextDocument,
+    { lhs, rhs, ...rest }: SearchSetting
 ): [Position, Position] | undefined {
-    if (!lhs(pair[1].lineAt(pair[0].line).text[pair[0].character])) {
+    if (!lhs(doc.lineAt(pos.line).text[pos.character])) {
         output.appendLine('Selection failed');
         return;
     }
 
-    const backwards = searchBackwards(pair, lhs, type, blockNewlines);
-    const forwards = searchForwards(pair, rhs, type, blockNewlines);
-
-    output.appendLine(`Backwards: ${JSON.stringify(backwards)}`);
-    output.appendLine(`Forwards: ${JSON.stringify(forwards)}`);
-    output.appendLine(`Pair: ${lhs === rhs}`);
+    const backwards = searchBackwards(pos, doc, lhs, rest);
+    const forwards = searchForwards(pos, doc, rhs, rest);
 
     if (backwards && forwards) {
         return [backwards, forwards];
